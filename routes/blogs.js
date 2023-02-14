@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 var express = require("express");
 var router = express.Router();
 
-const Blog = require('./model/Blogs');
+const Blog = require('../models/Blogs');
 
 /* GET home page. */
 router.get('/all', async function(req, res) {
