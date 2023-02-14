@@ -1,1 +1,7 @@
 # ExpressBloggerFinal
+
+
+## Install 
+```
+npm install 
+```
