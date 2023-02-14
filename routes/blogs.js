@@ -1,43 +1,20 @@
-// // const { v4: uuidv4 } = require("uuid");
-// // var express = require("express");
-// // var router = express.Router();
+const { v4: uuidv4 } = require("uuid");
+var express = require("express");
+var router = express.Router();
 
-// // const { db } = require("../mongo");
+const Blog = require('./model/Blogs');
 
-// // router.get("/all", async function (req,res,next){
+/* GET home page. */
+router.get('/all', async function(req, res) {
 
-// // try {     
-// //   await db()
-// //   .collection('posts')
-// //   .find({}) 
-// //   .toArray(function(err, result){
-// //     if (err) {
-// //       res.status(400).send();
-// //     }else {
-// //       res.json({
-// //         sucess:true,
-// //         posts:result
-// //       });
-// //     }
-// //   });
-
-// // } catch (error) { 
-// //     //500 error -> server side error 
-// //     res.status(500).send();
-// // }
-
-// //   //ALTERNATE WAY TO WRITE IT
-// //   //throw an error if fails to populate blogPosts
-// //   // if (blogPosts.length == 0) {
-// //   //   throw Error("No blog posts found");
-// //   // }
-  
-// //   // res.json({
-// //   //   success: true,
-// //   //   posts: blogPosts, 
-// //   // });
-// // });
-
+    //query blogs 
+    try {
+      const allBlogs = await Blog.find({});
+      res.json({blogs: allBlogs });
+    }catch(e){
+      console.log(e);
+    }
+});
 
 // // router.get("/get-one-example", async function (req, res, next) {
 // //   const blogPosts = await db()
@@ -88,49 +65,42 @@
 // //   console.log("third");
 // // });
 
-// // router.post("/create-one", async function (req, res, next) {
-// //   try {
-// //     const newPost = {
-// //       id: uuidv4(),
-// //       createdAt: new Date(),
-// //       title: req.body.title,
-// //       text: req.body.text,
-// //       author: req.body.author,
-// //       email: req.body.email,
-// //       categories: req.body.categories,
-// //       starRating: Number(req.body.starRating),
-// //     };
+router.post("/create-one", async function (req, res, next) {
+  try {
+    //parse out fields from POST request
+    const title  = req.body.title 
+    const text = req.body.text 
+    const author = req.body.author
+    const categories = req.body.category
+    const year =  req.body.year;
 
-// //     //debug: print out newPost
-// //     console.log(newPost);
+    //pass fields to new Blog model 
+    //notice how it's way more organized and does the type checking for us
+    const newBlog = new Blog({
+        title,
+        text,
+        author,
+        categories,
+        year
+    });
 
-// //     // Validation
+    //save our new entry to the database 
+    const savedData =  await newBlog.save();
+    
+    //return the successful request to the user 
+    res.json({
+        success: true,
+        blogs: savedData
+    });
 
-// //     if (newPost.email === undefined || !newPost.email.split("@").length > 1) {
-
-// //       res.json({
-// //         success: false,
-// //         message: "email invalid",
-// //       });
-// //     }
-
-// //     //because insertONE is a WRITE Operation, you don't need 
-// //     // to return insertOpREs to the user. Only do that when it's
-// //     // a READ operation i.e.e (find, findOne etc.. )
-// //     await db().collection("sample_blogs").insertOne(newPost);
-
-// //     res.json({
-// //       success: true,
-// //       newPost,
-// //     });
-// //   } catch (e) {
-// //     console.log(typeof e);
-// //     console.log(e);
-// //     res.json({
-// //       error: e.toString(),
-// //     });
-// //   }
-// // });
+  } catch (e) {
+    console.log(typeof e);
+    console.log(e);
+    res.json({
+      error: e.toString(),
+    });
+  }
+});
 
 // // router.get("/get-multi", async function (req, res) {
 // //   const sortField = req.query.sortField;
@@ -188,4 +158,4 @@
 // 	})
 // })
 
-// module.exports = router;
+module.exports = router;

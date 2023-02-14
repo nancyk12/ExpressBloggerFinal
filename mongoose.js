@@ -12,7 +12,7 @@ const mongoDB = process.env.ATLAS_URI;
 //connecting to mongoose
 async function mongooseConnect() {
   try {
-    await mongoose.connect(mongoDB); 
+    await mongoose.connect(mongoDB, {dbName: process.env.MONGO_DATABASE}); 
   } catch (error) {
     throw error;
   }
