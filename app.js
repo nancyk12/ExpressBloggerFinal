@@ -7,6 +7,9 @@ var logger = require('morgan');
 require("dotenv").config();
 
 
+//look in our .env file for PORT, if it's not there, default to 5002.
+const PORT = process.env.PORT || 5002;
+
 var { mongooseConnect } = require('./mongoose.js');
 mongooseConnect();
 //register routes.
@@ -50,6 +53,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+}); 
+
+//only do this if you don't have a /bin directory
+app.listen(PORT, () => {
+  console.log(`Server is running on port: ${PORT}`);
 });
 
 module.exports = app;

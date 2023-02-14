@@ -104,5 +104,4 @@ dist
 .tern-port
 
 # for express
-bin/
 package-lock.json
