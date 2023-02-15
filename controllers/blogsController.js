@@ -51,15 +51,19 @@ async function createOneBlog(req, res) {
   }
 
 async function getOneBlog(req, res, next) {
+
+
+    let oneBlogPost;
+
     try {
-        const oneBlogPost = await Blog.findOne({id: req.params.id});
-        res.json({
-            sucess: true,
-            oneBlog: oneBlogPost
-        })
+        oneBlogPost = await Blog.findOne({id: req.params.id});
     } catch (error) {
         console.log(error);
     }
+    res.json({
+        sucess: true,
+        oneBlog: oneBlogPost
+    })
 }
 
 async function updateOneBlog(req,res){
@@ -92,8 +96,6 @@ async function deleteOneBlog(req,res){
         message: `blog entry id ${entryId} deleted`
     })
 }
-
-
 
 module.exports = {
     createOneBlog,
