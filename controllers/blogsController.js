@@ -13,7 +13,7 @@ async function getAllBlogs(req, res) {
     }
 }
 
-async function createOneBlog(req, res, next) {
+async function createOneBlog(req, res) {
     try {
       //parse out fields from POST request
       const title  = req.body.title 
@@ -50,7 +50,55 @@ async function createOneBlog(req, res, next) {
     }
   }
 
+async function getOneBlog(req, res, next) {
+    try {
+        const oneBlogPost = await Blog.findOne({id: req.params.id});
+        res.json({
+            sucess: true,
+            oneBlog: oneBlogPost
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function updateOneBlog(req,res){
+    const entryId = req.params.id;
+
+    try {
+        await Blog.updateOne({ id: entryId }, req.body);
+    } catch (err) {
+        console.log(err);
+        throw err;  
+    }
+    res.json({
+        success: true,
+        message: `blog entry id ${entryId} updated`
+    })
+}
+
+async function deleteOneBlog(req,res){
+    const entryId = req.params.id;
+
+    try {
+        await Blog.deleteOne({id: entryId});
+    } catch (err) {
+        console.log(err);
+        throw err;  
+    }
+
+    res.json({
+        success: true,
+        message: `blog entry id ${entryId} deleted`
+    })
+}
+
+
+
 module.exports = {
+    createOneBlog,
+    deleteOneBlog,
     getAllBlogs,
-    createOneBlog
+    getOneBlog,
+    updateOneBlog
 };
