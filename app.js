@@ -1,23 +1,23 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-//load environment variables from .env (.env is the default file)
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+//load environment constiables from .env (.env is the default file)
 require("dotenv").config();
 
 //register routes.
 //NOTE: notice how there is .js after index, this is because
 // we exported the module as index. 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var blogsRouter = require('./routes/blogs');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const blogsRouter = require('./routes/blogs');
 
 //connecting to mongo db 
-var { mongoConnect } = require('./mongo.js');
+const { mongoConnect } = require('./mongo.js');
 mongoConnect();
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

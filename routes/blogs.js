@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 const { db } = require("../mongo");
 
