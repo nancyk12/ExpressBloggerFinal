@@ -88,7 +88,7 @@ console.log("Started request…");
 fetchPromise3
   .then((response) => {
     response.json();
-    //prints out 3.
+    //prints out 3s.
     console.log("request finished, now getting json()");
  })
   .then((data) => {
