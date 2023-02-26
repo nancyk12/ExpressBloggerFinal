@@ -1,5 +1,5 @@
-const { v4: uuidv4 } = require("uuid");
-uuidv4();
+const { uuid/*v4: uuidv4*/ } = require("uuid");
+//uuidv4();
 const express = require("express");
 const router = express.Router();
 
@@ -92,7 +92,7 @@ router.get("/get-one/:id", async function (req, res, next) {
 router.post("/create-one", async function (req, res, next) {
   try {
     const newPost = {
-      id: uuidv4(),
+      id: uuid(),
       createdAt: new Date(),
       title: req.body.title,
       text: req.body.text,
@@ -118,7 +118,7 @@ router.post("/create-one", async function (req, res, next) {
     //because insertONE is a WRITE Operation, you don't need 
     // to return insertOpREs to the user. Only do that when it's
     // a READ operation i.e.e (find, findOne etc.. )
-    const instert0pRes = await db().collection("sample_blogs").insertOne(newPost);
+   await db().collection("sample_blogs").insertOne(newPost);
 
     res.json({
       success: true,
